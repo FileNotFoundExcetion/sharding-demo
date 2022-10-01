@@ -24,10 +24,14 @@ public class OrderService {
     @Resource
     private OrderMapper orderMapper;
 
+    //1. 0930日表已经满足的情况
+
     public List<Order> queryOrder(){
         List<Order> orders=new ArrayList<>();
         Map<String,Object> param=new HashMap<>();
         Pagination pagination=new Pagination();
+        pagination.setPageIndex(1);
+        pagination.setPageSize(10);
         param.put("start", (pagination.getPageIndex() - 1) * pagination.getPageSize());
         param.put("length", pagination.getPageSize());
         String beginTime="20220924";
@@ -39,6 +43,7 @@ public class OrderService {
         AtomicInteger totalCount = new AtomicInteger(0);
         int actualTotalOffset = (pagination.getPageIndex() - 1) * pagination.getPageSize();
         Map<String, Pair<Integer, Integer>> map = new HashMap<>();
+        orderTag:
         for (int i = 0; i <= days; i++) {
             LocalDate localDate = end.minusDays(i);
             String date = dateTimeFormatter.format(localDate);
@@ -96,9 +101,9 @@ public class OrderService {
             List<Order> dbList = orderMapper.selectOrderByOrderDate(param);
             if(!CollectionUtils.isEmpty(dbList)){
                 for (Order order:dbList){
-                    orders.add(order);
+                     orders.add(order);
                     if (orders.size() == pagination.getPageSize()) {
-                        break;
+                       break orderTag;
                     }
                 }
             }
