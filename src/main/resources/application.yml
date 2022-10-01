@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/posx_agent?useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+  shardingsphere:
+    datasource:
+      names: ss
+      ss:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/posx_agent?useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+        username: root
+        password: 123456
+    rules:
+      sharding:
+        tables:
+          posx_order_1:
+            actual-data-nodes: ss.t_agent_order_1_${(101..1231).collect{t ->t.toString().padLeft(4,'0')}}
+            table-strategy:
+              standard:
+                sharding-column: order_date
+                sharding-algorithm-name: agent_mer_payway_stat-strategy
+        sharding-algorithms:
+          agent_mer_payway_stat-strategy:
+            type: INTERVAL
+            props:
+              datetime-pattern: 'yyyyMMdd'
+              datetime-lower: '20180101'
+              datetime-upper: '20991231'
+              sharding-suffix-pattern: 'MMdd'
+              datetime-interval-amount: 1
+              datetime-interval-unit: DAYS
+    enabled: true
+    props:
+      sql-show: true
+
+
+mybatis:
+  mapper-locations: classpath*:/mapper/*.xml
+
