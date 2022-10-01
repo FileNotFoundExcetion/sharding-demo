@@ -2,11 +2,14 @@ package com.sharding.test;
 
 import com.sharding.entity.Order;
 import com.sharding.mapper.OrderMapper;
+import com.sharding.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 class TestApplicationTests {
@@ -14,7 +17,19 @@ class TestApplicationTests {
    OrderMapper orderMapper;
 	@Test
 	void test() {
-		List<Order> orders = orderMapper.selectOrderByOrderDate("20220930");
+		//orderDate
+		Map<String,Object> params=new HashMap<>();
+		params.put("orderDate","20220930");
+		List<Order> orders = orderMapper.selectOrderByOrderDate(params);
+		System.out.println(orders);
+	}
+
+	@Resource
+	private OrderService orderService;
+
+	@Test
+	public void testQuery(){
+		List<Order> orders = orderService.queryOrder();
 		System.out.println(orders);
 	}
 

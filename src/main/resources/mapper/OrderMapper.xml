@@ -3,6 +3,13 @@
 <mapper namespace="com.sharding.mapper.OrderMapper">
   
     <select id="selectOrderByOrderDate" resultType="com.sharding.entity.Order">
-        select  * from posx_order_1 where order_date=#{orderDate}
+        select  * from posx_order_1 where order_date=#{orderDate} order by order_id desc
+        <if test="start!=null and length!=null ">
+            limit #{start} ,#{length}
+        </if>
+    </select>
+
+    <select id="selectOrderCountByOrderDate" resultType="java.lang.String">
+        select  order_id from posx_order_1 where order_date=#{orderDate}
     </select>
 </mapper>
