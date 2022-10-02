@@ -4,6 +4,7 @@ import cn.hutool.core.date.DatePattern;
 import com.sharding.entity.Order;
 import com.sharding.entity.Pagination;
 import com.sharding.mapper.OrderMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Slf4j
 @Service
 public class OrderService {
     @Resource
@@ -30,7 +32,7 @@ public class OrderService {
         List<Order> orders=new ArrayList<>();
         Map<String,Object> param=new HashMap<>();
         Pagination pagination=new Pagination();
-        pagination.setPageIndex(4);
+        pagination.setPageIndex(1);
         pagination.setPageSize(10);
         param.put("start", (pagination.getPageIndex() - 1) * pagination.getPageSize());
         param.put("length", pagination.getPageSize());
@@ -58,7 +60,6 @@ public class OrderService {
                 Pair<Integer, Integer> pageParam = new ImmutablePair<>(abs, pagination.getPageSize());
                 String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
                 map.put(lastDate, pageParam);
-
             }
             if(res0>=0){
               int actualAchieve=res0-pagination.getPageSize();
@@ -67,7 +68,6 @@ public class OrderService {
                   Pair<Integer, Integer> pageParam = new ImmutablePair<>(0, abs);
                   String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
                   map.put(lastDate, pageParam);
-             //     continue ;
               }else {
                   //=0
                  int currentOffset= actualTotalOffset-lastTotalOffset;
@@ -80,6 +80,7 @@ public class OrderService {
             if (Objects.nonNull(pageParam)) {
                 int left = pageParam.getLeft();
                 if(left>size){
+                  log.info("---------:{}--------{}",left,size);
                   continue ;
                 }
                 param.put("start", pageParam.getLeft());
