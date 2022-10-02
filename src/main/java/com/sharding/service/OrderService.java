@@ -26,7 +26,7 @@ public class OrderService {
     //30 3
     //29 5
     //28 5
-    //27 5
+    //27 1
     // 26 6
     //25 6
     //24 6
@@ -39,7 +39,7 @@ public class OrderService {
         List<Order> orders=new ArrayList<>();
         Map<String,Object> param=new HashMap<>();
         Pagination pagination=new Pagination();
-        pagination.setPageIndex(5);
+        pagination.setPageIndex(2);
         pagination.setPageSize(10);
         param.put("start", (pagination.getPageIndex() - 1) * pagination.getPageSize());
         param.put("length", pagination.getPageSize());
@@ -61,7 +61,7 @@ public class OrderService {
             totalCount.getAndAdd(size);
             int totalOffset = totalCount.get();
             //实际的偏移量  10 -1 10 差11
-            int res0 = totalOffset - actualTotalOffset;
+            int res0 = totalOffset - actualTotalOffset;//20
             if (res0 < 0) {
                 int abs = Math.abs(res0);//偏移量还差多少
                 Pair<Integer, Integer> pageParam = new ImmutablePair<>(abs, pagination.getPageSize());
@@ -69,6 +69,7 @@ public class OrderService {
                 map.put(lastDate, pageParam);
             }
             if(res0>=0){
+                //多出来的偏移量是否满足一页大小,如果不满足，还缺多少
               int actualAchieve=res0-pagination.getPageSize();
               if(actualAchieve<0){
                   int abs = Math.abs(actualAchieve);
@@ -76,6 +77,7 @@ public class OrderService {
                   String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
                   map.put(lastDate, pageParam);
               }
+              //>0拿上一页的偏移量
             }
             //res0=0 或者条数已经满足的情况下
             Pair<Integer, Integer> pageParam = map.get(date);
