@@ -30,7 +30,7 @@ public class OrderService {
         List<Order> orders=new ArrayList<>();
         Map<String,Object> param=new HashMap<>();
         Pagination pagination=new Pagination();
-        pagination.setPageIndex(2);
+        pagination.setPageIndex(4);
         pagination.setPageSize(10);
         param.put("start", (pagination.getPageIndex() - 1) * pagination.getPageSize());
         param.put("length", pagination.getPageSize());
@@ -67,6 +67,7 @@ public class OrderService {
                   Pair<Integer, Integer> pageParam = new ImmutablePair<>(0, abs);
                   String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
                   map.put(lastDate, pageParam);
+             //     continue ;
               }else {
                   //=0
                  int currentOffset= actualTotalOffset-lastTotalOffset;
@@ -77,6 +78,10 @@ public class OrderService {
             //res0=0 或者条数已经满足的情况下
             Pair<Integer, Integer> pageParam = map.get(date);
             if (Objects.nonNull(pageParam)) {
+                int left = pageParam.getLeft();
+                if(left>size){
+                  continue ;
+                }
                 param.put("start", pageParam.getLeft());
                 param.put("length", pageParam.getRight());
             }
