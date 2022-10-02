@@ -23,6 +23,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 @Service
 public class OrderService {
+    //30 3
+    //29 5
+    //28 5
+    //27 5
+    // 26 6
+    //25 6
+    //24 6
     @Resource
     private OrderMapper orderMapper;
     //SELECT * FROM `t_agent_order_1_0929` ORDER BY order_id desc
@@ -32,7 +39,7 @@ public class OrderService {
         List<Order> orders=new ArrayList<>();
         Map<String,Object> param=new HashMap<>();
         Pagination pagination=new Pagination();
-        pagination.setPageIndex(1);
+        pagination.setPageIndex(5);
         pagination.setPageSize(10);
         param.put("start", (pagination.getPageIndex() - 1) * pagination.getPageSize());
         param.put("length", pagination.getPageSize());
@@ -51,7 +58,7 @@ public class OrderService {
             param.put("orderDate", date);
             List<String> list = orderMapper.selectOrderCountByOrderDate(param);
             int size = list.size();
-            int lastTotalOffset= totalCount.getAndAdd(size);
+            totalCount.getAndAdd(size);
             int totalOffset = totalCount.get();
             //实际的偏移量  10 -1 10 差11
             int res0 = totalOffset - actualTotalOffset;
@@ -68,23 +75,17 @@ public class OrderService {
                   Pair<Integer, Integer> pageParam = new ImmutablePair<>(0, abs);
                   String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
                   map.put(lastDate, pageParam);
-              }else {
-                  //=0
-                 int currentOffset= actualTotalOffset-lastTotalOffset;
-                 param.put("start",currentOffset);
-                 param.put("length",pagination.getPageSize());
               }
             }
             //res0=0 或者条数已经满足的情况下
             Pair<Integer, Integer> pageParam = map.get(date);
             if (Objects.nonNull(pageParam)) {
-                int left = pageParam.getLeft();
-                if(left>size){
-                  log.info("---------:{}--------{}",left,size);
-                  continue ;
-                }
                 param.put("start", pageParam.getLeft());
                 param.put("length", pageParam.getRight());
+            }
+            int start =(Integer) param.get("start");
+            if(start>=size){
+              continue ;
             }
             List<Order> dbList = orderMapper.selectOrderByOrderDate(param);
             if(!CollectionUtils.isEmpty(dbList)){
