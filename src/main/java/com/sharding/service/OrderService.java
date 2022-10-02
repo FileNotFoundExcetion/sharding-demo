@@ -30,7 +30,7 @@ public class OrderService {
         List<Order> orders=new ArrayList<>();
         Map<String,Object> param=new HashMap<>();
         Pagination pagination=new Pagination();
-        pagination.setPageIndex(1);
+        pagination.setPageIndex(2);
         pagination.setPageSize(10);
         param.put("start", (pagination.getPageIndex() - 1) * pagination.getPageSize());
         param.put("length", pagination.getPageSize());
@@ -43,10 +43,6 @@ public class OrderService {
         AtomicInteger totalCount = new AtomicInteger(0);
         int actualTotalOffset = (pagination.getPageIndex() - 1) * pagination.getPageSize();
         Map<String, Pair<Integer, Integer>> map = new HashMap<>();
-        int totalNeedCount=actualTotalOffset+pagination.getPageSize();
-        //actualTotalOffset+pagination.getPageSize()
-        //930 9条
-        // 929 5条
         orderTag: for (int i = 0; i <= days; i++) {
             LocalDate localDate = end.minusDays(i);
             String date = dateTimeFormatter.format(localDate);
