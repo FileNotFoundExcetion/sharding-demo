@@ -30,7 +30,7 @@ public class OrderService {
         List<Order> orders=new ArrayList<>();
         Map<String,Object> param=new HashMap<>();
         Pagination pagination=new Pagination();
-        pagination.setPageIndex(2);
+        pagination.setPageIndex(1);
         pagination.setPageSize(10);
         param.put("start", (pagination.getPageIndex() - 1) * pagination.getPageSize());
         param.put("length", pagination.getPageSize());
@@ -47,14 +47,13 @@ public class OrderService {
         //actualTotalOffset+pagination.getPageSize()
         //930 9条
         // 929 5条
-        orderTag:
-        for (int i = 0; i <= days; i++) {
+        orderTag: for (int i = 0; i <= days; i++) {
             LocalDate localDate = end.minusDays(i);
             String date = dateTimeFormatter.format(localDate);
             param.put("orderDate", date);
             List<String> list = orderMapper.selectOrderCountByOrderDate(param);
             int size = list.size();
-            totalCount.getAndAdd(size);
+            int lastTotalOffset= totalCount.getAndAdd(size);
             int totalOffset = totalCount.get();
             //实际的偏移量  10 -1 10 差11
             int res0 = totalOffset - actualTotalOffset;
@@ -63,19 +62,27 @@ public class OrderService {
                 Pair<Integer, Integer> pageParam = new ImmutablePair<>(abs, pagination.getPageSize());
                 String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
                 map.put(lastDate, pageParam);
-            }
-            if(res0>0){
 
+            }
+            if(res0>=0){
+              int actualAchieve=res0-pagination.getPageSize();
+              if(actualAchieve<0){
+                  int abs = Math.abs(actualAchieve);
+                  Pair<Integer, Integer> pageParam = new ImmutablePair<>(0, abs);
+                  String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
+                  map.put(lastDate, pageParam);
+              }else {
+                  //=0
+                 int currentOffset= actualTotalOffset-lastTotalOffset;
+                 param.put("start",currentOffset);
+                 param.put("length",pagination.getPageSize());
+              }
             }
             //res0=0 或者条数已经满足的情况下
             Pair<Integer, Integer> pageParam = map.get(date);
             if (Objects.nonNull(pageParam)) {
-                int left = pageParam.getLeft();
                 param.put("start", pageParam.getLeft());
                 param.put("length", pageParam.getRight());
-                if(left>size){
-                    continue ;
-                }
             }
             List<Order> dbList = orderMapper.selectOrderByOrderDate(param);
             if(!CollectionUtils.isEmpty(dbList)){
