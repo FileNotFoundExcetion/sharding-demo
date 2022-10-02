@@ -23,14 +23,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class OrderService {
     @Resource
     private OrderMapper orderMapper;
-
+    //SELECT * FROM `t_agent_order_1_0929` ORDER BY order_id desc
     //1. 0930日表已经满足的情况
 
     public List<Order> queryOrder(){
         List<Order> orders=new ArrayList<>();
         Map<String,Object> param=new HashMap<>();
         Pagination pagination=new Pagination();
-        pagination.setPageIndex(1);
+        pagination.setPageIndex(2);
         pagination.setPageSize(10);
         param.put("start", (pagination.getPageIndex() - 1) * pagination.getPageSize());
         param.put("length", pagination.getPageSize());
@@ -43,6 +43,10 @@ public class OrderService {
         AtomicInteger totalCount = new AtomicInteger(0);
         int actualTotalOffset = (pagination.getPageIndex() - 1) * pagination.getPageSize();
         Map<String, Pair<Integer, Integer>> map = new HashMap<>();
+        int totalNeedCount=actualTotalOffset+pagination.getPageSize();
+        //actualTotalOffset+pagination.getPageSize()
+        //930 9条
+        // 929 5条
         orderTag:
         for (int i = 0; i <= days; i++) {
             LocalDate localDate = end.minusDays(i);
@@ -50,53 +54,28 @@ public class OrderService {
             param.put("orderDate", date);
             List<String> list = orderMapper.selectOrderCountByOrderDate(param);
             int size = list.size();
-            int lastTotalOffset = totalCount.getAndAdd(size);
+            totalCount.getAndAdd(size);
             int totalOffset = totalCount.get();
-            //当前条数已经不足页数大小
-            int res0 = totalOffset - pagination.getPageSize();
+            //实际的偏移量  10 -1 10 差11
+            int res0 = totalOffset - actualTotalOffset;
             if (res0 < 0) {
-                int abs = Math.abs(res0);//已有几条
-                Pair<Integer, Integer> pageParam = new ImmutablePair<>(0, abs);
+                int abs = Math.abs(res0);//偏移量还差多少
+                Pair<Integer, Integer> pageParam = new ImmutablePair<>(abs, pagination.getPageSize());
                 String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
                 map.put(lastDate, pageParam);
             }
-            if(res0 > 0){
-                //条数是否满足当前条数
-                int res = totalOffset - pagination.getPageSize() - actualTotalOffset;
-                if (res < 0) {
-                    int abs = Math.abs(res);
-                    Pair<Integer, Integer> pageParam = new ImmutablePair<>(abs, pagination.getPageSize());
-                    String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
-                    map.put(lastDate, pageParam);
-                    continue;
-                }else if(res>0){
-                    //本次查询的偏移量
-                    //0  0-10
-                    if(lastTotalOffset-pagination.getPageSize()>0){
-                        int offset=actualTotalOffset-(lastTotalOffset-pagination.getPageSize());
-                        if(offset+pagination.getPageSize()<size){
-                            param.put("start", offset);
-                            param.put("length", pagination.getPageSize());
-                        }else {
-                            int nextOffset= offset+pagination.getPageSize()- size;
-                            Pair<Integer, Integer> pageParam = new ImmutablePair<>(0, nextOffset);
-                            String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
-                            map.put(lastDate, pageParam);
-                        }
-                    }else if(lastTotalOffset-pagination.getPageSize()==0){
-                        //=0
-                        Pair<Integer, Integer> pageParam = new ImmutablePair<>(0, pagination.getPageSize());
-                        String lastDate = dateTimeFormatter.format(localDate.minusDays(1));
-                        map.put(lastDate, pageParam);
-                        continue;
-                    }
-                }
+            if(res0>0){
+
             }
             //res0=0 或者条数已经满足的情况下
             Pair<Integer, Integer> pageParam = map.get(date);
             if (Objects.nonNull(pageParam)) {
+                int left = pageParam.getLeft();
                 param.put("start", pageParam.getLeft());
                 param.put("length", pageParam.getRight());
+                if(left>size){
+                    continue ;
+                }
             }
             List<Order> dbList = orderMapper.selectOrderByOrderDate(param);
             if(!CollectionUtils.isEmpty(dbList)){
