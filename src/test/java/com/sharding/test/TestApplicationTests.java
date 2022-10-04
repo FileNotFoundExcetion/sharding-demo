@@ -16,7 +16,7 @@ class TestApplicationTests {
    @Resource
    OrderMapper orderMapper;
 	@Test
-	void test() {
+	void selectOrderByOrderDate() {
 		//orderDate
 		Map<String,Object> params=new HashMap<>();
 		params.put("orderDate","20220930");
@@ -28,7 +28,7 @@ class TestApplicationTests {
 	private OrderService orderService;
 
 	@Test
-	public void testQuery(){
+	public void queryOrder(){
 		List<Order> orders = orderService.queryOrder();
 		System.out.println(orders);
 	}
