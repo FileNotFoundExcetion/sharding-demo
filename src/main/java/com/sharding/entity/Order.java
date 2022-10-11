@@ -2,6 +2,7 @@ package com.sharding.entity;
 
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -176,11 +177,11 @@ public class Order {
     /**
      * 创建时间(yyyy-MM-dd HH:mm:ss)
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 修改时间(yyyy-MM-dd HH:mm:ss)
      */
-    private Date updateTime;
+    private LocalDateTime updateTime;
 }
 

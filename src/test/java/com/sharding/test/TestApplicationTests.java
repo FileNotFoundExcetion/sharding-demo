@@ -3,7 +3,9 @@ package com.sharding.test;
 import com.sharding.entity.Order;
 import com.sharding.mapper.OrderMapper;
 import com.sharding.service.OrderService;
+import com.sharding.service.TestService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
@@ -32,5 +34,22 @@ class TestApplicationTests {
 		List<Order> orders = orderService.queryOrder();
 		System.out.println(orders);
 	}
+
+	@Value("#{testService1}")
+	private TestService testService;
+
+	@Value("#{testService2}")
+	private TestService testService2;
+
+	@Value("#{order.orderId}")
+	private String orderId;
+
+	@Test
+	public void ss(){
+		System.out.println(testService);
+		System.out.println(testService2);
+		System.out.println(orderId);
+	}
+
 
 }
