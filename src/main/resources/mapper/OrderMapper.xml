@@ -12,4 +12,67 @@
     <select id="selectOrderCountByOrderDate" resultType="java.lang.String">
         select  order_id from posx_order_1 where order_date=#{orderDate}
     </select>
+
+    <select id="selectOrderHistoryCountBySummary" resultType="java.lang.Integer">
+        select temp.totalCounts from(
+        select sum(
+              <choose>
+               <when test="@java.util.Objects@equals(orderStatus,'1'.toString())">
+                   ifnull(order_counts, 0)
+               </when>
+                  <when test="@java.util.Objects@equals(orderStatus,'5'.toString()) or @java.util.Objects@equals(orderStatus,'6'.toString())">
+                      ifnull(refund_count, 0)
+                  </when>
+               <when test="@java.util.Objects@equals(orderStatus,'3'.toString())">
+                   ifnull(fail_count, 0)
+               </when>
+                  <when test="@org.apache.commons.lang3.StringUtils@isEmpty(orderStatus)">
+                      ifnull(order_counts, 0)+ ifnull(fail_count, 0)
+                  </when>
+                <otherwise>
+                    0
+                </otherwise>
+            </choose>
+        ) AS totalCounts
+        from posx_agent_mer_payway_stat pamps
+        where pamps.trade_date between #{beginTime} and #{endTime}
+        <if test="@org.apache.commons.collections.CollectionUtils@isNotEmpty(agentNos)">
+            and pamps.agent_no in
+            <foreach collection="agentNos" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(agentNo)">
+            and pamps.agent_no = #{agentNo}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(agentNoTree)">
+            and pamps.agent_no_tree like concat(#{agentNoTree}, '%')
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(deviceType)">
+            and pamps.device_type = #{deviceType}
+        </if>
+        <if test="paywayId !=null and paywayId!=''">
+            and pamps.payway_id=#{paywayId}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(settleType)">
+            and exists(
+            select 1
+            from posx_merchant pm
+            where pm.merchant_id = pamps.merchant_id
+            and settle_type = #{settleType}
+            )
+        </if>
+        <if test="@org.apache.commons.collections.CollectionUtils@isNotEmpty(merchantIds)">
+            and pamps.merchant_id IN (
+            <foreach collection="merchantIds" item="merchantId" separator=",">
+                #{merchantId}
+            </foreach>
+            )
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(merchantId)">
+            and pamps.merchant_id = #{merchantId}
+        </if>
+        ) temp
+    </select>
 </mapper>

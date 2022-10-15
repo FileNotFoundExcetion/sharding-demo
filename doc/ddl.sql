@@ -44,3 +44,38 @@ CREATE TABLE `t_agent_order_1_0930` (
                                         KEY `idx_pch` (`pay_channel`) USING BTREE,
                                         KEY `idx_pno` (`project_no`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='湖北邮政订单日表';
+
+
+CREATE TABLE `t_agent_mer_device_payway_stat_202209` (
+                                                         `id` varchar(32) NOT NULL COMMENT '主键',
+                                                         `agent_no` int(8) NOT NULL COMMENT '代理No',
+                                                         `agent_no_tree` varchar(255) NOT NULL COMMENT '代理层级树',
+                                                         `merchant_id` varchar(32) NOT NULL COMMENT '831商户号',
+                                                         `trade_date` varchar(8) NOT NULL COMMENT '统计日期 yyyyMMdd',
+                                                         `project_no` varchar(32) DEFAULT '' COMMENT '项目编号',
+                                                         `device_no` varchar(32) NOT NULL COMMENT '设备编号',
+                                                         `device_type` int(2) NOT NULL COMMENT '设备类型0-传统pos,1-扫码枪,2-扫码盒,3-台牌,4-智能pos,5-云音箱,6-刷卡扫码盒,7-刷脸',
+                                                         `payway_id` varchar(16) NOT NULL COMMENT '支付方式',
+                                                         `order_counts` bigint(32) NOT NULL COMMENT '交易笔数',
+                                                         `order_amount` decimal(16,4) NOT NULL COMMENT '交易金额',
+                                                         `settle_amount` decimal(16,4) DEFAULT '0.0000' COMMENT '结算金额',
+                                                         `fail_amount` decimal(16,4) DEFAULT '0.0000' COMMENT '失败金额',
+                                                         `fail_count` bigint(32) DEFAULT '0' COMMENT '失败笔数',
+                                                         `refund_amount` decimal(16,4) DEFAULT '0.0000' COMMENT '退款金额',
+                                                         `refund_count` bigint(32) DEFAULT '0' COMMENT '退款笔数',
+                                                         `org_struct_id` int(11) DEFAULT '0' COMMENT '组织结构编号',
+                                                         `cm_id` int(11) DEFAULT '0' COMMENT '渠道经理编号',
+                                                         `org_struct_tree` varchar(50) DEFAULT '0' COMMENT '组织结构树',
+                                                         `bm_id` int(11) DEFAULT '0' COMMENT '业务员编号',
+                                                         `create_time` datetime NOT NULL COMMENT '创建时间',
+                                                         `update_time` datetime NOT NULL COMMENT '修改时间(yyyy-MM-dd HH:mm:ss)',
+                                                         `creator` varchar(16) DEFAULT 'admin' COMMENT '创建人',
+                                                         `updater` varchar(16) DEFAULT 'admin' COMMENT '更新人',
+                                                         `is_deleted` tinyint(1) DEFAULT '1' COMMENT '是否有效 0-失效 1-有效',
+                                                         PRIMARY KEY (`id`),
+                                                         KEY `idx_ano_date` (`agent_no`,`trade_date`,`device_no`,`payway_id`),
+                                                         KEY `idx_anot_date` (`agent_no_tree`,`trade_date`),
+                                                         KEY `idx_ano_bm` (`agent_no`,`project_no`,`bm_id`),
+                                                         KEY `idx_ano_payway` (`merchant_id`,`trade_date`,`device_no`,`payway_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商户支付方式交易数据汇总月表';
+
