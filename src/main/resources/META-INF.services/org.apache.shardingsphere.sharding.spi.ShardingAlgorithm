@@ -1,0 +1,12 @@
+
+
+org.apache.shardingsphere.sharding.algorithm.sharding.inline.InlineShardingAlgorithm
+org.apache.shardingsphere.sharding.algorithm.sharding.mod.ModShardingAlgorithm
+org.apache.shardingsphere.sharding.algorithm.sharding.mod.HashModShardingAlgorithm
+org.apache.shardingsphere.sharding.algorithm.sharding.range.VolumeBasedRangeShardingAlgorithm
+org.apache.shardingsphere.sharding.algorithm.sharding.range.BoundaryBasedRangeShardingAlgorithm
+org.apache.shardingsphere.sharding.algorithm.sharding.datetime.AutoIntervalShardingAlgorithm
+org.apache.shardingsphere.sharding.algorithm.sharding.datetime.IntervalShardingAlgorithm
+org.apache.shardingsphere.sharding.algorithm.sharding.classbased.ClassBasedShardingAlgorithm
+org.apache.shardingsphere.sharding.algorithm.sharding.complex.ComplexInlineShardingAlgorithm
+org.apache.shardingsphere.sharding.algorithm.sharding.hint.HintInlineShardingAlgorithm

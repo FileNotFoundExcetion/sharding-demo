@@ -13,14 +13,14 @@ import java.util.Map;
 public class Test02 {
     @Value("#{orderMapper}")
     OrderMapper orderMapper;
-
+    //跨月 会归并在集合里
     @Test
     public void selectOrderHistoryCountBySummary(){
         ///#{beginTime} and #{endTime}
         Map<String,Object> param=new HashMap<>();
-        String beginTime="20220927";
-        String endTime="20220927";
-        String orderStatus="5";
+        String beginTime="20220929";
+        String endTime="20221001";
+        String orderStatus="1";
         param.put("beginTime",beginTime);
         param.put("endTime",endTime);
         param.put("orderStatus",orderStatus);
