@@ -8,6 +8,8 @@ import java.util.Map;
 public interface OrderMapper {
 
     List<Order> selectOrderByOrderDate(Map<String,Object> params);
+    //跨天分组统计 会有重复的
+    List<Integer> selectOrderByOrderDateTemp(Map<String,Object> params);
 
     List<String> selectOrderCountByOrderDate(Map<String,Object> params);
    //4 支付中

@@ -26,6 +26,15 @@ class TestApplicationTests {
 		System.out.println(orders);
 	}
 
+	@Test
+	public void selectOrderByOrderDateTemp(){
+		Map<String,Object> params=new HashMap<>();
+		params.put("orderDate","20220929");
+		params.put("orderDate1","20220930");
+		List<Integer> couunt = orderMapper.selectOrderByOrderDateTemp(params);
+		System.out.println(couunt);
+	}
+
 	@Resource
 	private OrderService orderService;
 

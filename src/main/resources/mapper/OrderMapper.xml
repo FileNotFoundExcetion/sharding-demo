@@ -8,7 +8,17 @@
             limit #{start} ,#{length}
         </if>
     </select>
-
+    <select id="selectOrderByOrderDateTemp" resultType="java.lang.Integer">
+        select temp.cnt from (
+        select count(temp.merchant_id) as cnt
+        from (
+            select  merchant_id from posx_order_1
+            where order_date between #{orderDate} and #{orderDate1}
+            group by merchant_id
+            order by order_id desc
+        ) temp
+        ) temp
+    </select>
     <select id="selectOrderCountByOrderDate" resultType="java.lang.String">
         select  order_id from posx_order_1 where order_date=#{orderDate}
     </select>
