@@ -79,3 +79,35 @@ CREATE TABLE `t_agent_mer_device_payway_stat_202209` (
                                                          KEY `idx_ano_payway` (`merchant_id`,`trade_date`,`device_no`,`payway_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商户支付方式交易数据汇总月表';
 
+
+
+CREATE TABLE `t_agent_mer_stat_202208` (
+                                           `id` varchar(32) NOT NULL COMMENT '主键',
+                                           `agent_no` int(11) NOT NULL COMMENT '代理No',
+                                           `agent_no_tree` varchar(255) NOT NULL COMMENT '代理层级树',
+                                           `merchant_id` varchar(32) NOT NULL COMMENT '商户编号',
+                                           `project_no` varchar(32) DEFAULT '' COMMENT '项目Id',
+                                           `trade_date` varchar(8) NOT NULL COMMENT '统计日期(yyyyMMdd)',
+                                           `valid_order_amount` decimal(16,4) NOT NULL COMMENT '有效交易金额',
+                                           `valid_order_count` bigint(32) NOT NULL COMMENT '有效交易笔数',
+                                           `order_amount` decimal(16,4) NOT NULL COMMENT '交易笔数',
+                                           `order_count` bigint(32) NOT NULL COMMENT '交易金额',
+                                           `order_fee` decimal(16,4) NOT NULL DEFAULT '0.0000' COMMENT '交易手续费',
+                                           `order_annul_fee` decimal(16,4) NOT NULL DEFAULT '0.0000' COMMENT '减免交易手续费',
+                                           `big_order_amount` decimal(16,4) NOT NULL DEFAULT '0.0000' COMMENT '大于1000的金额总和',
+                                           `big_order_count` int(11) NOT NULL DEFAULT '0' COMMENT '大于1000的金额总和',
+                                           `device_count` int(11) NOT NULL DEFAULT '0' COMMENT '设备数',
+                                           `report_time` datetime NOT NULL COMMENT '入网时间',
+                                           `org_struct_id` int(11) DEFAULT '0' COMMENT '组织结构编号',
+                                           `cm_id` int(11) DEFAULT '0' COMMENT '渠道经理编号',
+                                           `org_struct_tree` varchar(50) DEFAULT '0' COMMENT '组织结构树',
+                                           `bm_id` int(11) DEFAULT '0' COMMENT '业务员编号',
+                                           `create_time` datetime NOT NULL COMMENT '创建时间',
+                                           `update_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(yyyy-MM-dd HH:mm:ss)',
+                                           PRIMARY KEY (`id`),
+                                           KEY `idx_ano_bm_date` (`agent_no`,`trade_date`,`bm_id`) USING BTREE,
+                                           KEY `idx_ano_date` (`agent_no_tree`,`trade_date`) USING BTREE,
+                                           KEY `idx_ano_mer` (`agent_no`,`merchant_id`) USING BTREE,
+                                           KEY `idx_mer_date` (`merchant_id`,`trade_date`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='按商户汇总交易数据汇总月表';
+

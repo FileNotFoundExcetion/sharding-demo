@@ -28,6 +28,12 @@ spring:
               standard:
                 sharding-column: trade_date
                 sharding-algorithm-name: agent_mer_payway_stats-strategy
+          posx_direct_agent_mer_statistics:
+            actual-data-nodes: ss.t_agent_mer_stat_${(2018..2050)}${(01..12).collect{m ->m.toString().padLeft(2, '0')}}
+            table-strategy:
+              standard:
+                sharding-column: trade_date
+                sharding-algorithm-name: dir-stat-strategy
         sharding-algorithms:
           agent_mer_payway_stat-strategy:
             type: INTERVAL
@@ -44,6 +50,15 @@ spring:
               datetime-pattern: 'yyyyMMdd'
               datetime-lower: '20180101'
               datetime-upper: '20991231'
+              sharding-suffix-pattern: 'yyyyMM'
+              datetime-interval-amount: 1
+              datetime-interval-unit: MONTHS
+          dir-stat-strategy:
+            type: INTERVAL
+            props:
+              datetime-pattern: 'yyyyMMdd'
+              datetime-lower: '20180101'
+              datetime-upper: '20501231'
               sharding-suffix-pattern: 'yyyyMM'
               datetime-interval-amount: 1
               datetime-interval-unit: MONTHS

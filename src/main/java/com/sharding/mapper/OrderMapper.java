@@ -1,6 +1,7 @@
 package com.sharding.mapper;
 
 import com.sharding.entity.Order;
+import com.sharding.entity.PosxDirectAgentMerStatistics;
 
 import java.util.List;
 import java.util.Map;
@@ -16,5 +17,8 @@ public interface OrderMapper {
     //5 已退款
     //6部分退款
     List<Integer> selectOrderHistoryCountBySummary(Map<String, Object> params);
+
+
+   List<PosxDirectAgentMerStatistics> selectPosxDirectAgentMerStatistics(Map<String, Object> params);
 
 }

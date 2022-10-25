@@ -85,4 +85,18 @@
         </if>
         ) temp
     </select>
+    
+    <!-- >= <=都要有才能命中分片键 -->
+    <select id="selectPosxDirectAgentMerStatistics" resultType="com.sharding.entity.PosxDirectAgentMerStatistics">
+        select  * from posx_direct_agent_mer_statistics
+        where
+            <trim prefixOverrides="and">
+                <if test="startTime != null and startTime!=''">
+                    AND <![CDATA[ trade_date >= #{startTime}]]>
+                </if>
+                <if test="endTime != null and endTime!=''">
+                    AND <![CDATA[ trade_date <= #{endTime}]]>
+                </if>
+            </trim>
+    </select>
 </mapper>

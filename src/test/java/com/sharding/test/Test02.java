@@ -1,5 +1,6 @@
 package com.sharding.test;
 
+import com.sharding.entity.PosxDirectAgentMerStatistics;
 import com.sharding.mapper.OrderMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,5 +27,15 @@ public class Test02 {
         param.put("orderStatus",orderStatus);
         List<Integer> list = orderMapper.selectOrderHistoryCountBySummary(param);
         System.out.println(list);
+    }
+
+    @Test
+    public void ss(){
+        Map<String, Object> params=new HashMap<>();
+        params.put("startTime","20220820");
+        params.put("endTime","20220821");
+        List<PosxDirectAgentMerStatistics> posxDirectAgentMerStatistics = orderMapper.selectPosxDirectAgentMerStatistics(params);
+        System.out.println(posxDirectAgentMerStatistics);
+
     }
 }
