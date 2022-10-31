@@ -50,14 +50,11 @@ class TestApplicationTests {
 	@Value("#{testService2}")
 	private TestService testService2;
 
-	@Value("#{order.orderId}")
-	private String orderId;
 
 	@Test
 	public void ss(){
 		System.out.println(testService);
 		System.out.println(testService2);
-		System.out.println(orderId);
 	}
 
 
