@@ -2,7 +2,9 @@ package com.sharding.mapper;
 
 import com.sharding.entity.Order;
 import com.sharding.entity.PosxDirectAgentMerStatistics;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,5 +22,7 @@ public interface OrderMapper {
 
 
    List<PosxDirectAgentMerStatistics> selectPosxDirectAgentMerStatistics(Map<String, Object> params);
+
+   List<Map> selectActivityInfo(@Param("startTime")Date startTime,@Param("endTime")Date endTime);
 
 }

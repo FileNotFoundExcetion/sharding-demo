@@ -99,4 +99,9 @@
                 </if>
             </trim>
     </select>
+
+    <select id="selectActivityInfo" resultType="map">
+        SELECT * FROM `activity_info` WHERE <![CDATA[ create_time >= #{startTime}]]>
+                                        and <![CDATA[ create_time >= #{endTime}]]>
+    </select>
 </mapper>
