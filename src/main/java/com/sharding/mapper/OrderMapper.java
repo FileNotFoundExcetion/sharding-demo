@@ -1,9 +1,11 @@
 package com.sharding.mapper;
 
+import com.sharding.entity.ActivityInfo;
 import com.sharding.entity.Order;
 import com.sharding.entity.PosxDirectAgentMerStatistics;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +22,10 @@ public interface OrderMapper {
     //6部分退款
     List<Integer> selectOrderHistoryCountBySummary(Map<String, Object> params);
 
+    List<PosxDirectAgentMerStatistics> selectPosxDirectAgentMerStatistics(Map<String, Object> params);
 
-   List<PosxDirectAgentMerStatistics> selectPosxDirectAgentMerStatistics(Map<String, Object> params);
+   List<ActivityInfo> selectActivityInfo(@Param("startTime") LocalDate startTime, @Param("endTime")LocalDate endTime);
 
-   List<Map> selectActivityInfo(@Param("startTime")Date startTime,@Param("endTime")Date endTime);
+    List<ActivityInfo> selectActivityInfo1(@Param("startTime") Date startTime, @Param("endTime")Date endTime);
 
 }

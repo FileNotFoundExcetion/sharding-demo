@@ -1,15 +1,18 @@
 package com.sharding.test;
 
+import com.sharding.entity.ActivityInfo;
 import com.sharding.entity.PosxDirectAgentMerStatistics;
 import com.sharding.mapper.OrderMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 public class Test02 {
@@ -42,15 +45,12 @@ public class Test02 {
 //SELECT * FROM `activity_info` WHERE create_time>='2021-01-12' and create_time<'2021-01-15';
     @Test
     public void ff(){
-        Date date = new Date();
-        date.setYear(2021);
-        date.setMonth(1);
-        date.setDate(12);
-        Date date1 = new Date();
-        date1.setYear(2021);
-        date1.setMonth(1);
-        date1.setDate(15);
-        List<Map> maps = orderMapper.selectActivityInfo(date, date1);
-        System.out.println(maps.size());
+      //  System.out.println(ZoneId.getAvailableZoneIds());
+        LocalDate begin = LocalDate.of(2021, 1, 12);
+        LocalDate end = LocalDate.of(2021, 1, 15);
+        Date from = new Date(1610380800);
+        Date to = new Date(1610640000);
+        List<ActivityInfo> maps = orderMapper.selectActivityInfo1(from, to);
+        System.out.println(maps.stream().map(ActivityInfo::getActivityId).collect(Collectors.toList()));
     }
 }

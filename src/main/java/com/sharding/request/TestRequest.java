@@ -11,6 +11,9 @@ import java.util.Date;
 public class TestRequest {
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd",iso = DateTimeFormat.ISO.DATE)
     private Date end;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd",iso = DateTimeFormat.ISO.DATE)
+    private Date start;
 }

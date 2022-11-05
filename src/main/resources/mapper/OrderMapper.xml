@@ -100,8 +100,13 @@
             </trim>
     </select>
 
-    <select id="selectActivityInfo" resultType="map">
+    <select id="selectActivityInfo" resultType="com.sharding.entity.ActivityInfo">
         SELECT * FROM `activity_info` WHERE <![CDATA[ create_time >= #{startTime}]]>
-                                        and <![CDATA[ create_time >= #{endTime}]]>
+                                        and  create_time <![CDATA[<]]> #{endTime}
+    </select>
+
+    <select id="selectActivityInfo1" resultType="com.sharding.entity.ActivityInfo">
+        SELECT * FROM `activity_info` WHERE <![CDATA[ create_time >= #{startTime}]]>
+        and  create_time <![CDATA[<]]> #{endTime}
     </select>
 </mapper>
