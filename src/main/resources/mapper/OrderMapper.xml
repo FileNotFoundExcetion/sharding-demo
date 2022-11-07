@@ -109,4 +109,8 @@
         SELECT * FROM `activity_info` WHERE <![CDATA[ create_time >= #{startTime}]]>
         and  create_time <![CDATA[<]]> #{endTime}
     </select>
+
+    <select id="selectPosxDevice" resultType="com.sharding.entity.PosxDeviceDO">
+        select * from posx_device where device_no=#{deviceNo}
+    </select>
 </mapper>

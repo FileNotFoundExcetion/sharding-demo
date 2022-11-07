@@ -1,17 +1,20 @@
 package com.sharding.test;
 
 import com.sharding.entity.ActivityInfo;
+import com.sharding.entity.PosxDeviceDO;
 import com.sharding.entity.PosxDirectAgentMerStatistics;
 import com.sharding.mapper.OrderMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -52,5 +55,14 @@ public class Test02 {
         Date to = new Date(1610640000);
         List<ActivityInfo> maps = orderMapper.selectActivityInfo1(from, to);
         System.out.println(maps.stream().map(ActivityInfo::getActivityId).collect(Collectors.toList()));
+    }
+
+    @Test
+    public void dd(){
+        PosxDeviceDO posxDeviceDO = orderMapper.selectPosxDevice("141800001092340");
+        if (StringUtils.hasText(posxDeviceDO.getMerchantId())
+                && !Objects.equals(posxDeviceDO.getMerchantId(), "123")) {
+           System.out.println("=================");
+        }
     }
 }

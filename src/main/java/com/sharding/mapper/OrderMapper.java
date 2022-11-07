@@ -2,6 +2,7 @@ package com.sharding.mapper;
 
 import com.sharding.entity.ActivityInfo;
 import com.sharding.entity.Order;
+import com.sharding.entity.PosxDeviceDO;
 import com.sharding.entity.PosxDirectAgentMerStatistics;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,5 +28,8 @@ public interface OrderMapper {
    List<ActivityInfo> selectActivityInfo(@Param("startTime") LocalDate startTime, @Param("endTime")LocalDate endTime);
 
     List<ActivityInfo> selectActivityInfo1(@Param("startTime") Date startTime, @Param("endTime")Date endTime);
+
+
+    PosxDeviceDO selectPosxDevice(@Param("deviceNo")String deviceNo);
 
 }
