@@ -1,6 +1,7 @@
 package com.sharding.test;
 
 import com.sharding.entity.ActivityInfo;
+import com.sharding.entity.IncomeCountExtDo;
 import com.sharding.entity.PosxDeviceDO;
 import com.sharding.entity.PosxDirectAgentMerStatistics;
 import com.sharding.mapper.OrderMapper;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,5 +66,19 @@ public class Test02 {
                 && !Objects.equals(posxDeviceDO.getMerchantId(), "123")) {
            System.out.println("=================");
         }
+    }
+
+    /**
+     * 嵌套包含查询会有null
+     */
+    @Test
+    public void tt(){
+        List<String> agentNos=new ArrayList<>();
+        agentNos.add("100214");
+        List<IncomeCountExtDo> incomeCount = orderMapper.findIncomeCount(false,
+                "20221003","20221003",agentNos,
+                100214,true,"24000","101106,100117,100214"
+                );
+        System.out.println(incomeCount);
     }
 }

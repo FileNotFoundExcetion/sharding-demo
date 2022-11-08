@@ -1,6 +1,7 @@
 package com.sharding.mapper;
 
 import com.sharding.entity.ActivityInfo;
+import com.sharding.entity.IncomeCountExtDo;
 import com.sharding.entity.Order;
 import com.sharding.entity.PosxDeviceDO;
 import com.sharding.entity.PosxDirectAgentMerStatistics;
@@ -31,5 +32,8 @@ public interface OrderMapper {
 
 
     PosxDeviceDO selectPosxDevice(@Param("deviceNo")String deviceNo);
+
+    List<IncomeCountExtDo> findIncomeCount(@Param("isDirectMerchant") Boolean isDirectMerchant, @Param("beginTime") String beginTime, @Param("endTime") String endTime
+            , @Param("agentNos") List<String> agentNos, @Param("agentNo") Integer agentNo, @Param("isAllOrder") Boolean isAllOrder, @Param("paywayId") String paywayId, @Param("agentNoTree")String agentNoTree);
 
 }
