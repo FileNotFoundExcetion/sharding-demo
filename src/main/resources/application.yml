@@ -4,6 +4,27 @@ spring:
     username: root
     password: 123456
     url: jdbc:mysql://localhost:3306/posx_agent?useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+    dynamic:
+        primary: master
+        strict: false
+        druid:
+          initial-size: 5
+          max-active: 20
+          max-wait: 60000
+          min-idle: 3
+        datasource:
+          master:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            type: com.zaxxer.hikari.HikariDataSource
+            url: jdbc:mysql://localhost:3306/posx_agent?useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+            username: root
+            password: 123456
+          slave:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            type: com.zaxxer.hikari.HikariDataSource
+            url: jdbc:mysql://localhost:3306/posx_agent?useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+            username: root
+            password: 123456
   shardingsphere:
     datasource:
       names: ss
@@ -16,6 +37,31 @@ spring:
     rules:
       sharding:
         tables:
+          posx_order:
+            actual-data-nodes: ss.t_agent_order_${0..1}_${(101..1231).collect{t ->t.toString().padLeft(4,'0')}}
+            table-strategy:
+              complex:
+                sharding-columns: agent_no, order_date
+                sharding-algorithm-name: day-order-strategy
+            # 订单月表
+          posx_order_month:
+            actual-data-nodes: ss.t_agent_order_${0..2}_${(2018..2050)}${(01..12).collect{m ->m.toString().padLeft(2, '0')}}
+            table-strategy:
+              complex:
+                sharding-columns: agent_no, order_date
+                sharding-algorithm-name: month-order-strategy
+          posx_order_attachment_month:
+            actual-data-nodes: ss.t_agent_order_add_value_${0..2}_${(2018..2050)}${(01..12).collect{m ->m.toString().padLeft(2, '0')}}
+            table-strategy:
+              complex:
+                sharding-columns: agent_no, order_date
+                sharding-algorithm-name: attach-month-order-strategy
+          posx_order_attachment:
+            actual-data-nodes: ss.t_agent_order_add_value_${0..1}_${(101..1231).collect{t ->t.toString().padLeft(4,'0')}}
+            table-strategy:
+              complex:
+                sharding-columns: agent_no, order_date
+                sharding-algorithm-name: day-attach-strategy
           posx_order_1:
             actual-data-nodes: ss.t_agent_order_1_${(101..1231).collect{t ->t.toString().padLeft(4,'0')}}
             table-strategy:
@@ -35,6 +81,14 @@ spring:
                 sharding-column: trade_date
                 sharding-algorithm-name: dir-stat-strategy
         sharding-algorithms:
+          day-order-strategy:
+            type: DayOrderComplexKeysShardingAlgorithm
+          day-attach-strategy:
+            type: DayOrderAddComplexKeysShardingAlgorithm
+          month-order-strategy:
+            type: MonthOrderComplexKeysShardingAlgorithm
+          attach-month-order-strategy:
+            type: MonthAddOrderComplexKeysShardingAlgorithm
           agent_mer_payway_stat-strategy:
             type: INTERVAL
             props:
@@ -65,6 +119,8 @@ spring:
     enabled: true
     props:
       sql-show: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 
 mybatis:

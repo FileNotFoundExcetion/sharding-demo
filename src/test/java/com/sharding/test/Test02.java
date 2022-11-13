@@ -4,12 +4,15 @@ import com.sharding.entity.ActivityInfo;
 import com.sharding.entity.IncomeCountExtDo;
 import com.sharding.entity.PosxDeviceDO;
 import com.sharding.entity.PosxDirectAgentMerStatistics;
+import com.sharding.entity.TAgentShardingRuleConfigDO;
 import com.sharding.mapper.OrderMapper;
+import com.sharding.mapper.TAgentShardingRuleConfigMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,5 +83,13 @@ public class Test02 {
                 100214,true,"24000","101106,100117,100214"
                 );
         System.out.println(incomeCount);
+    }
+
+    @Resource
+    private TAgentShardingRuleConfigMapper tAgentShardingRuleConfigMapper;
+    @Test
+    public void selectAllShardingRuleNos(){
+        List<TAgentShardingRuleConfigDO> tAgentShardingRuleConfigDOS = tAgentShardingRuleConfigMapper.selectAllShardingRuleNos();
+        System.out.println(tAgentShardingRuleConfigDOS);
     }
 }

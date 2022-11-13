@@ -10,3 +10,8 @@ org.apache.shardingsphere.sharding.algorithm.sharding.datetime.IntervalShardingA
 org.apache.shardingsphere.sharding.algorithm.sharding.classbased.ClassBasedShardingAlgorithm
 org.apache.shardingsphere.sharding.algorithm.sharding.complex.ComplexInlineShardingAlgorithm
 org.apache.shardingsphere.sharding.algorithm.sharding.hint.HintInlineShardingAlgorithm
+
+com.sharding.config.MonthOrderComplexKeysShardingAlgorithm
+com.sharding.config.DayOrderComplexKeysShardingAlgorithm
+com.sharding.config.MonthAddOrderComplexKeysShardingAlgorithm
+com.sharding.config.DayOrderAddComplexKeysShardingAlgorithm

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharding.mapper.PosxAgentMapper">
+
+    <resultMap id="BaseResultMap" type="com.sharding.entity.PosxAgentDO">
+        <id column="agent_id" property="agentId"/>
+        <result column="agent_no" property="agentNo"/>
+        <result column="agent_no_tree" property="agentNoTree"/>
+        <result column="agent_tree" property="agentTree"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="user_type" property="userType"/>
+        <result column="account" property="account"/>
+        <result column="name" property="name"/>
+        <result column="realname" property="realname"/>
+        <result column="nickname" property="nickname"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="email" property="email"/>
+        <result column="islock" property="islock"/>
+        <result column="isdel" property="isdel"/>
+        <result column="remark" property="remark"/>
+        <result column="level" property="level"/>
+        <result column="role_id" property="roleId"/>
+        <result column="agent_biz_type" property="agentBizType"/>
+        <result column="rate" property="rate"/>
+        <result column="business_qq" property="businessQq"/>
+        <result column="business_email" property="businessEmail"/>
+        <result column="business_tel" property="businessTel"/>
+        <result column="business_name" property="businessName"/>
+        <result column="bank_company_name" property="bankCompanyName"/>
+        <result column="bank_no" property="bankNo"/>
+        <result column="bank_addr_province" property="bankAddrProvince"/>
+        <result column="bank_addr_city" property="bankAddrCity"/>
+        <result column="bank_name" property="bankName"/>
+        <result column="bank_sub_name" property="bankSubName"/>
+        <result column="bank_sub_code" property="bankSubCode"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="photo_id" property="photoId"/>
+        <result column="ext1" property="ext1"/>
+        <result column="ext2" property="ext2"/>
+        <result column="ext3" property="ext3"/>
+        <result column="agreement_version" property="agreementVersion"/>
+        <result column="id_card_no" property="idCardNo"/>
+        <result column="is_real_name" property="isRealName"/>
+        <result column="jpush_id" property="jpushId"/>
+        <result column="audit_flag" property="auditFlag"/>
+        <result column="location_flag" property="locationFlag"/>
+        <result column="cash_out_fix_settle_price" property="cashOutFixSettlePrice"/>
+        <result column="cash_out_settle_price_rate" property="cashOutSettlePriceRate"/>
+        <result column="channel_manager" property="channelManager"/>
+        <result column="password_update_time" property="passwordUpdateTime"/>
+        <result column="login_fail_count" property="loginFailCount"/>
+        <result column="freeze_time" property="freezeTime"/>
+        <result column="fast_audit_flag" property="fastAuditFlag"/>
+        <result column="org_struct_id" property="orgStructId"/>
+        <result column="org_struct_tree" property="orgStructTree"/>
+        <result column="cm_id" property="cmId"/>
+        <result column="activity_flag" property="activityFlag"/>
+        <result column="pay_channel" property="payChannel"/>
+        <result column="ext_field" property="extField"/>
+        <result column="org_level" property="orgLevel"/>
+    </resultMap>
+
+
+</mapper>

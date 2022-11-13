@@ -1,5 +1,6 @@
 package com.sharding.mapper;
 
+import com.sharding.ann.ShardingDS;
 import com.sharding.entity.ActivityInfo;
 import com.sharding.entity.IncomeCountExtDo;
 import com.sharding.entity.Order;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
+@ShardingDS
 public interface OrderMapper {
 
     List<Order> selectOrderByOrderDate(Map<String,Object> params);

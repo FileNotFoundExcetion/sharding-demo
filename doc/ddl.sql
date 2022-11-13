@@ -181,3 +181,18 @@ CREATE TABLE `posx_agent` (
                               KEY `index_posx_agent_role_id` (`role_id`) USING BTREE,
                               KEY `index_posx_agent_agent_tree` (`agent_tree`(255)) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=105539 DEFAULT CHARSET=utf8 COMMENT='代理表';
+
+
+
+
+CREATE TABLE `t_agent_sharding_rule_config` (
+                                                `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+                                                `sharding_key` varchar(255) DEFAULT NULL COMMENT '分片键描述,如agent_no',
+                                                `sharding_value` varchar(128) DEFAULT NULL COMMENT '分片键值',
+                                                `sharding_no` varchar(255) DEFAULT NULL COMMENT '分片节点',
+                                                `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                                `create_user` varchar(8) DEFAULT 'system',
+                                                `update_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                                `update_user` varchar(8) DEFAULT 'system',
+                                                PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='分片规则表';
