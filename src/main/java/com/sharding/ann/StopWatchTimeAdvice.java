@@ -2,8 +2,8 @@ package com.sharding.ann;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +65,7 @@ public class StopWatchTimeAdvice {
 
         Object proceed = point.proceed();  // 类似于调用过滤器链一样
         if (annotation != null && annotation.isPrintRes()) {
-            log.info(StrUtil.format("{} INFO reqId={},results={}", DateUtil.now(), nextId, proceed));
+            log.info(CharSequenceUtil.format("{} INFO reqId={},results={}", DateUtil.now(), nextId, proceed));
         }
         return proceed;
     }
