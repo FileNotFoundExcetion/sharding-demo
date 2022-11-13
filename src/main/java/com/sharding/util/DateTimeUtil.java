@@ -1,7 +1,8 @@
 package com.sharding.util;
 
-import com.dianping.cat.util.StringUtils;
+
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
