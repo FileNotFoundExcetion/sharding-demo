@@ -42,7 +42,7 @@ public class Test02 {
     }
 
     @Test
-    public void ss(){
+    public void selectPosxDirectAgentMerStatistics(){
         Map<String, Object> params=new HashMap<>();
         params.put("startTime","20220820");
         params.put("endTime","20220821");
@@ -52,7 +52,7 @@ public class Test02 {
     }
 //SELECT * FROM `activity_info` WHERE create_time>='2021-01-12' and create_time<'2021-01-15';
     @Test
-    public void ff(){
+    public void selectActivityInfo1(){
       //  System.out.println(ZoneId.getAvailableZoneIds());
         LocalDate begin = LocalDate.of(2021, 1, 12);
         LocalDate end = LocalDate.of(2021, 1, 15);
@@ -63,7 +63,7 @@ public class Test02 {
     }
 
     @Test
-    public void dd(){
+    public void selectPosxDevice(){
         PosxDeviceDO posxDeviceDO = orderMapper.selectPosxDevice("141800001092340");
         if (StringUtils.hasText(posxDeviceDO.getMerchantId())
                 && !Objects.equals(posxDeviceDO.getMerchantId(), "123")) {
@@ -75,7 +75,7 @@ public class Test02 {
      * 嵌套包含查询会有null
      */
     @Test
-    public void tt(){
+    public void findIncomeCount(){
         List<String> agentNos=new ArrayList<>();
         agentNos.add("100214");
         List<IncomeCountExtDo> incomeCount = orderMapper.findIncomeCount(false,
