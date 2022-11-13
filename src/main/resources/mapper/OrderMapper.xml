@@ -122,25 +122,27 @@
         from(
         SELECT po.payway_id         paywayId,
         sum(po.order_amount) orderAmount,
-        sum(ifnull(order_counts,0))     orderCount
+        sum(ifnull(po.order_counts,0))     orderCount
         FROM posx_agent_mer_payway_stat po
-        where 1 = 1
-        and po.trade_date between #{beginTime} and #{endTime}
-        <if test="!isAllOrder and isDirectMerchant">
-            and po.agent_no = #{agentNo}
-        </if>
-        <if test="!isAllOrder and !isDirectMerchant">
-            and po.agent_no in
-            <foreach collection="agentNos" item="item" open="(" separator=","
-                     close=")">
-                #{item}
-            </foreach>
-            and po.agent_no != #{agentNo}
-        </if>
-        <if test="isAllOrder">
-            and po.agent_no_tree like concat(#{agentNoTree},'%')
-        </if>
-        and po.payway_id = #{paywayId}
+        where
+        <trim prefixOverrides="and">
+            and po.trade_date between #{beginTime} and #{endTime}
+            <if test="!isAllOrder and isDirectMerchant">
+                and po.agent_no = #{agentNo}
+            </if>
+            <if test="!isAllOrder and !isDirectMerchant">
+                and po.agent_no in
+                <foreach collection="agentNos" item="item" open="(" separator=","
+                         close=")">
+                    #{item}
+                </foreach>
+                and po.agent_no != #{agentNo}
+            </if>
+            <if test="isAllOrder">
+                and po.agent_no_tree like concat(#{agentNoTree},'%')
+            </if>
+            and po.payway_id = #{paywayId}
+        </trim>
         ) t
     </select>
 </mapper>
