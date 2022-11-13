@@ -12,7 +12,7 @@ public interface TAgentShardingRuleConfigMapper  {
     @Select("select sharding_no from t_agent_sharding_rule_config where sharding_value = #{agentNo}")
     List<String> selectShardingRuleNo(@Param("agentNo") Integer agentNo);
 
-    @Select("select sharding_value, sharding_no from t_agent_sharding_rule_config")
+    @Select("select * from t_agent_sharding_rule_config")
     List<TAgentShardingRuleConfigDO> selectAllShardingRuleNos();
 
 }

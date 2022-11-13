@@ -7,8 +7,10 @@ import com.sharding.entity.TAgentShardingRuleConfigDO;
 import com.sharding.mapper.PosxAgentMapper;
 import com.sharding.mapper.TAgentShardingRuleConfigMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.LinkedList;
 import java.util.List;
@@ -85,7 +87,7 @@ public class ShardingRuleNoConfig {
 
     }
 
-/*    @PostConstruct
+    @PostConstruct
     private void cacheRuleNo() {
         log.info("分片配置缓存加载....");
         cacheList = tAgentShardingRuleConfigMapper.selectAllShardingRuleNos();
@@ -93,5 +95,5 @@ public class ShardingRuleNoConfig {
             throw new IllegalArgumentException("分片配置信息为空,缓存加载失败");
         }
         log.info("分片配置缓存加载完成:{}", cacheList);
-    }*/
+    }
 }
