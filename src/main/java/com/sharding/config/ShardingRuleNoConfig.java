@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.stream.Collectors;
 
 
@@ -32,7 +32,7 @@ public class ShardingRuleNoConfig {
     @Resource
     private PosxAgentMapper agentMapper;
 
-    private final Map<String, String> agentNoCache = new ConcurrentHashMap<>();
+    private final Map<String, String> agentNoCache = new ConcurrentSkipListMap<>();
 
     private List<TAgentShardingRuleConfigDO> cacheList = new LinkedList<>();
 
