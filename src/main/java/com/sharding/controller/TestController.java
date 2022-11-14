@@ -22,9 +22,9 @@ public class TestController {
 
     @AccessLog(value = "test")
     @PostMapping("test")
-    public Object test(@RequestBody TestRequest testRequest){
-        System.out.println(testRequest);
-        return "";
+    public Object test(@RequestBody String json){
+        System.out.println(json);
+        return json;
     }
 
     @AccessLog(value = "test01")
