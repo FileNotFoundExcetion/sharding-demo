@@ -1,4 +1,4 @@
-package com.sharding.service;
+package com.sharding.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sharding.entity.User;

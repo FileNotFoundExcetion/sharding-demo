@@ -99,10 +99,8 @@ public class BaseComplexKeysShardingAlgorithm implements ComplexKeysShardingAlgo
             String day = date.substring(4, 8);
             // 订单日表
             String orderName = String.format(suffix, ruleNo).concat(day);
-            if (databaseNames.contains(orderName)) {
-                if (!list.contains(orderName)) {
+            if (databaseNames.contains(orderName)&&(!list.contains(orderName))) {
                     list.add(orderName);
-                }
             }
         }
         return list;

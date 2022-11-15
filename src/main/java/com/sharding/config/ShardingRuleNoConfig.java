@@ -1,6 +1,5 @@
 package com.sharding.config;
 
-import cn.hutool.core.util.StrUtil;
 import com.google.common.base.Preconditions;
 import com.sharding.entity.PosxAgentDO;
 import com.sharding.entity.TAgentShardingRuleConfigDO;
@@ -8,6 +7,7 @@ import com.sharding.mapper.PosxAgentMapper;
 import com.sharding.mapper.TAgentShardingRuleConfigMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -38,7 +38,7 @@ public class ShardingRuleNoConfig {
 
     public List<String> getRuleNo(String agentNo) {
         try {
-            if (StrUtil.isEmpty(agentNo)) {
+            if (StringUtils.isEmpty(agentNo)) {
                 throw new IllegalArgumentException("分片键为空");
             }
             String firstAgentNo = getFirstAgentNoFromCache(agentNo);
@@ -56,14 +56,14 @@ public class ShardingRuleNoConfig {
 
     private String getFirstAgentNoFromCache(String agentNo) {
         log.info("从缓存中获取一级代理:{}", agentNo);
-        if (StrUtil.isEmpty(agentNoCache.get(agentNo))) {
+        if (StringUtils.isEmpty(agentNoCache.get(agentNo))) {
             log.info("未命中缓存");
             String firstAgentNo = getFirstAgentNo(agentNo);
             agentNoCache.put(agentNo, firstAgentNo);
         } else {
             log.info("命中缓存");
             String firstAgentNo = agentNoCache.get(agentNo);
-            if (StrUtil.isEmpty(firstAgentNo)) {
+            if (StringUtils.isEmpty(firstAgentNo)) {
                 firstAgentNo = getFirstAgentNo(agentNo);
                 agentNoCache.put(agentNo, firstAgentNo);
             }
@@ -82,7 +82,7 @@ public class ShardingRuleNoConfig {
             PosxAgentDO agentDO = agentMapper.selectByAgentNo(Integer.parseInt(agentNo));
             Preconditions.checkArgument(agentDO != null, "代理商信息不存在");
             String agentNoTree = agentDO.getAgentNoTree();
-            Preconditions.checkArgument(StrUtil.isNotEmpty(agentNoTree), "代理商配置信息不全");
+            Preconditions.checkArgument(StringUtils.isNotEmpty(agentNoTree), "代理商配置信息不全");
             return agentNoTree.split(",")[1];
 
     }
