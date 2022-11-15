@@ -55,10 +55,8 @@ public class BaseComplexKeysShardingAlgorithm implements ComplexKeysShardingAlgo
             String month = date.substring(0, 6);
             // 订单日表
             String tMonthOrder = String.format(suffix, ruleNo).concat(month);
-            if (databaseNames.contains(tMonthOrder)) {
-                if (!list.contains(tMonthOrder)) {
+            if (databaseNames.contains(tMonthOrder)&&(!list.contains(tMonthOrder))) {
                     list.add(tMonthOrder);
-                }
             }
         }
         return list;

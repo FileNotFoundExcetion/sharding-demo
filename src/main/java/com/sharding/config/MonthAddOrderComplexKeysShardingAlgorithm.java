@@ -22,6 +22,7 @@ public class MonthAddOrderComplexKeysShardingAlgorithm extends BaseComplexKeysSh
     @SneakyThrows
     @Override
     public Collection<String> doSharding(Collection<String> databaseNames, ComplexKeysShardingValue<String> complexKeysShardingValue) {
+        String logicTableName = complexKeysShardingValue.getLogicTableName();
         if (complexKeysShardingValue.getColumnNameAndRangeValuesMap().isEmpty() && complexKeysShardingValue.getColumnNameAndShardingValuesMap().isEmpty()) {
             throw new IllegalArgumentException("不支持除了[=, in, between...and, >=, <=]的操作");
         }
@@ -42,15 +43,12 @@ public class MonthAddOrderComplexKeysShardingAlgorithm extends BaseComplexKeysSh
             }
             return list;
         } else {
-            // 按日期精确查询 order_date = #{orderDate}
             for (Object date : dates) {
                 for (String ruleNo : ruleNos) {
                     String month = date.toString().substring(0, 6);
                     String tMonthOrder = String.format(AGENT_ORDER_ATTACH_SUFFIX, ruleNo).concat(month);
-                    if (databaseNames.contains(tMonthOrder)) {
-                        if (!list.contains(tMonthOrder)) {
+                    if (databaseNames.contains(tMonthOrder)&&(!list.contains(tMonthOrder))) {
                             list.add(tMonthOrder);
-                        }
                     }
                 }
             }
