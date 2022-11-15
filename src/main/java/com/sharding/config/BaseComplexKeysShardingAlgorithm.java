@@ -75,6 +75,7 @@ public class BaseComplexKeysShardingAlgorithm implements ComplexKeysShardingAlgo
     }
 
     public Range<String> getRangeShardingValue(ComplexKeysShardingValue<String> shardingValues, final String key) {
+        //范围查询的key 这个Key就是范围查询的字段
         Map<String, Range<String>> rangeMap = shardingValues.getColumnNameAndRangeValuesMap();
         if (rangeMap.containsKey(key)) {
             return rangeMap.get(key);
