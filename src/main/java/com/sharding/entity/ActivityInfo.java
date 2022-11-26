@@ -1,10 +1,13 @@
 package com.sharding.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
     * 活动图
     */
+@Data
 public class ActivityInfo {
     /**
     * 活动id
@@ -56,83 +59,5 @@ public class ActivityInfo {
     */
     private String updateBy;
 
-    public Integer getActivityId() {
-        return activityId;
-    }
 
-    public void setActivityId(Integer activityId) {
-        this.activityId = activityId;
-    }
-
-    public String getActivityName() {
-        return activityName;
-    }
-
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-
-    public Integer getCityId() {
-        return cityId;
-    }
-
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
-    }
-
-    public String getCityName() {
-        return cityName;
-    }
-
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-
-    public String getActivityPic() {
-        return activityPic;
-    }
-
-    public void setActivityPic(String activityPic) {
-        this.activityPic = activityPic;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
 }
