@@ -12,4 +12,10 @@ public interface TestMapper {
 
     List<AgentProfitDetailDto> queryAgentMercAnnulFeeInfo(@Param("profitCountInfoDto") ProfitCountInfoDto profitCountInfoDto);
 
+
+    List<AgentProfitDetailDto> queryAgentMercValueAnnulFeeInfoGroup(@Param("orderTableName") String orderTableName,
+                                                                    @Param("settleType") String settleType,
+                                                                    @Param("agentNos") List<Integer> agentNos,
+                                                                    @Param("orderDate") String orderDate);
+
 }

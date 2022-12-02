@@ -57,7 +57,7 @@ class TestApplicationTests {
 	private TestMapper testMapper;
 
 	@Test
-	public void ss(){
+	public void queryAgentMercAnnulFeeInfo(){
 		ProfitCountInfoDto profitCountInfoDto=new ProfitCountInfoDto();
 		profitCountInfoDto.setBeginDate("20221202");
 		profitCountInfoDto.setAgentNo(105508);
@@ -67,5 +67,14 @@ class TestApplicationTests {
 		testMapper.queryAgentMercAnnulFeeInfo(profitCountInfoDto);
 	}
 
-
+	@Test
+	public void queryAgentMercValueAnnulFeeInfoGroup(){
+		ProfitCountInfoDto profitCountInfoDto=new ProfitCountInfoDto();
+		profitCountInfoDto.setBeginDate("20221202");
+		profitCountInfoDto.setAgentNo(105508);
+		profitCountInfoDto.setAgentNos(Arrays.asList(105508));
+		profitCountInfoDto.setPaywayIds(Arrays.asList("22000", "23000", "27000", "10004", "29000", "24000"));
+		profitCountInfoDto.setUnionpayOffers(0);
+		testMapper.queryAgentMercValueAnnulFeeInfoGroup(null,"D1",Arrays.asList(105508),"20221202");
+	}
 }

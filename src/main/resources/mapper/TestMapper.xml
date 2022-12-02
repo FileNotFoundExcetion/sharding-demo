@@ -32,4 +32,37 @@
             group by o.merchant_id,o.order_rate
         </where>
     </select>
+
+    <select id="queryAgentMercValueAnnulFeeInfoGroup"
+            resultType="com.sharding.vo.AgentProfitDetailDto">
+        SELECT
+        t.merchant_id merchantId,
+        t.`settle_type` settleType,
+        SUM(case t.order_status when 1 then t.`order_amount` when 5 then (0 - t.`order_amount`) when 6 then (0 - t.`order_amount`) ELSE 0 END) annulOrderAmount,
+        SUM(case t.order_status when 1 then 1 when 5 then -1 when 6 then -1 ELSE 0 END) annulOrderCount,
+        p.order_add_value_rate orderRate,
+        t.agent_no directAgentNo
+        FROM
+        posx_order t
+        INNER JOIN posx_order_attachment p
+        ON t.`order_id` = p.`order_id`
+        WHERE 1=1
+        AND t.order_date = #{orderDate}
+        AND p.order_date = #{orderDate}
+        AND t.agent_no in
+        <foreach collection="agentNos" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND p.agent_no in
+        <foreach collection="agentNos" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND t.order_status in (1, 5, 6)
+        AND (
+        t.payway_id != '' AND t.payway_id IS NOT NULL
+        )
+        AND t.settle_type = #{settleType}
+        AND t.activity_id !=0
+        GROUP BY t.merchant_id,t.order_rate
+    </select>
 </mapper>
