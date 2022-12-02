@@ -2,13 +2,16 @@ package com.sharding.test;
 
 import com.sharding.entity.Order;
 import com.sharding.mapper.OrderMapper;
+import com.sharding.mapper.TestMapper;
 import com.sharding.service.OrderService;
 import com.sharding.service.TestService;
+import com.sharding.vo.ProfitCountInfoDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,11 +53,18 @@ class TestApplicationTests {
 	@Value("#{testService2}")
 	private TestService testService2;
 
+    @Resource
+	private TestMapper testMapper;
 
 	@Test
 	public void ss(){
-		System.out.println(testService);
-		System.out.println(testService2);
+		ProfitCountInfoDto profitCountInfoDto=new ProfitCountInfoDto();
+		profitCountInfoDto.setBeginDate("20221202");
+		profitCountInfoDto.setAgentNo(105508);
+		profitCountInfoDto.setAgentNos(Arrays.asList(105508));
+		profitCountInfoDto.setPaywayIds(Arrays.asList("22000", "23000", "27000", "10004", "29000", "24000"));
+		profitCountInfoDto.setUnionpayOffers(0);
+		testMapper.queryAgentMercAnnulFeeInfo(profitCountInfoDto);
 	}
 
 

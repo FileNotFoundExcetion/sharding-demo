@@ -80,7 +80,15 @@ spring:
               standard:
                 sharding-column: trade_date
                 sharding-algorithm-name: dir-stat-strategy
+          posx_agent_profit:
+            actual-data-nodes: ss.t_agent_profit_${(101..1231).collect{t ->t.toString().padLeft(4,'0')}}
+            table-strategy:
+              complex:
+                sharding-columns: order_date
+                sharding-algorithm-name: day-profit-strategy
         sharding-algorithms:
+          day-profit-strategy:
+            type: DayProfitComplexKeysShardingAlgorithm
           day-order-strategy:
             type: DayOrderComplexKeysShardingAlgorithm
           day-attach-strategy:

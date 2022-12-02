@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharding.mapper.TestMapper">
+    <select id="queryAgentMercAnnulFeeInfo" resultType="com.sharding.vo.AgentProfitDetailDto">
+        SELECT
+        o.merchant_id merchantId,
+        o.order_rate orderRate,
+        SUM(case o.order_status when 1 then o.`order_amount` when 5 then (0 - o.`order_amount`) when 6 then (0 - o.`order_amount`) else 0 END) annulOrderAmount,
+        SUM(case o.order_status when 1 then 1 when 5 then -1 when 6 then -1 ELSE 0 END) annulOrderCount,
+        o.agent_no directAgentNo
+        FROM
+        posx_agent_profit p
+        INNER JOIN posx_order o  ON o.`order_id` = p.`order_id`
+        <where>
+            o.agent_no IN
+            <foreach collection="profitCountInfoDto.agentNos" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            AND p.agent_no = #{profitCountInfoDto.agentNo}
+            AND o.payway_id IN
+            <foreach collection="profitCountInfoDto.paywayIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            <if test="profitCountInfoDto.cardType != null and profitCountInfoDto.cardType != ''">
+                AND (o.card_type is null or o.card_type = #{profitCountInfoDto.cardType})
+            </if>
+            AND o.unionpay_offers = #{profitCountInfoDto.unionpayOffers}
+            <!--AND o.order_status = 1-->
+            AND o.activity_id !=0
+            AND o.order_date = #{profitCountInfoDto.beginDate}
+            AND p.order_date = #{profitCountInfoDto.beginDate}
+            group by o.merchant_id,o.order_rate
+        </where>
+    </select>
+</mapper>
