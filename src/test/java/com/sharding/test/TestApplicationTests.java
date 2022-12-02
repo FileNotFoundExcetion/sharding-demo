@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,9 +73,9 @@ class TestApplicationTests {
 		ProfitCountInfoDto profitCountInfoDto=new ProfitCountInfoDto();
 		profitCountInfoDto.setBeginDate("20221202");
 		profitCountInfoDto.setAgentNo(105508);
-		profitCountInfoDto.setAgentNos(Arrays.asList(105508));
+		profitCountInfoDto.setAgentNos(Collections.singletonList(105508));
 		profitCountInfoDto.setPaywayIds(Arrays.asList("22000", "23000", "27000", "10004", "29000", "24000"));
 		profitCountInfoDto.setUnionpayOffers(0);
-		testMapper.queryAgentMercValueAnnulFeeInfoGroup(null,"D1",Arrays.asList(105508),"20221202");
+		testMapper.queryAgentMercValueAnnulFeeInfoGroup(null,"D1", Collections.singletonList(105508),"20221202");
 	}
 }
