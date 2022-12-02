@@ -74,3 +74,11 @@ INSERT INTO `posx_agent`.`t_agent_sharding_rule_config` (`id`, `sharding_key`, `
 INSERT INTO `posx_agent`.`t_agent_sharding_rule_config` (`id`, `sharding_key`, `sharding_value`, `sharding_no`, `create_time`, `create_user`, `update_time`, `update_user`) VALUES (3, 'agent_no', '100209', '0', '2022-09-09 10:00:18', 'admin', '2022-09-09 10:00:18', 'admin');
 INSERT INTO `posx_agent`.`t_agent_sharding_rule_config` (`id`, `sharding_key`, `sharding_value`, `sharding_no`, `create_time`, `create_user`, `update_time`, `update_user`) VALUES (4, 'agent_no', '100209', '1', '2022-09-09 10:00:18', 'admin', '2022-09-09 10:00:18', 'admin');
 INSERT INTO `posx_agent`.`t_agent_sharding_rule_config` (`id`, `sharding_key`, `sharding_value`, `sharding_no`, `create_time`, `create_user`, `update_time`, `update_user`) VALUES (5, 'agent_no', '102922', '1', '2022-09-09 10:00:18', 'admin', '2022-09-14 16:43:58', 'admin');
+
+
+
+INSERT INTO `posx_agent`.`t_agent_sharding_rule_config` (`id`, `sharding_key`, `sharding_value`, `sharding_no`, `create_time`, `create_user`, `update_time`, `update_user`) VALUES (1, 'agent_no', '102866', '1', '2022-08-22 10:22:18', 'admin', '2022-08-22 10:22:18', 'admin');
+INSERT INTO `posx_agent`.`t_agent_sharding_rule_config` (`id`, `sharding_key`, `sharding_value`, `sharding_no`, `create_time`, `create_user`, `update_time`, `update_user`) VALUES (2, 'agent_no', '102786', '1', '2022-08-22 10:22:18', 'admin', '2022-08-22 10:22:18', 'admin');
+INSERT INTO `posx_agent`.`t_agent_sharding_rule_config` (`id`, `sharding_key`, `sharding_value`, `sharding_no`, `create_time`, `create_user`, `update_time`, `update_user`) VALUES (3, 'agent_no', '100209', '0', '2022-09-09 10:00:18', 'admin', '2022-09-09 10:00:18', 'admin');
+INSERT INTO `posx_agent`.`t_agent_sharding_rule_config` (`id`, `sharding_key`, `sharding_value`, `sharding_no`, `create_time`, `create_user`, `update_time`, `update_user`) VALUES (4, 'agent_no', '100209', '1', '2022-09-09 10:00:18', 'admin', '2022-09-09 10:00:18', 'admin');
+INSERT INTO `posx_agent`.`t_agent_sharding_rule_config` (`id`, `sharding_key`, `sharding_value`, `sharding_no`, `create_time`, `create_user`, `update_time`, `update_user`) VALUES (5, 'agent_no', '102922', '1', '2022-09-09 10:00:18', 'admin', '2022-09-14 16:43:58', 'admin');
