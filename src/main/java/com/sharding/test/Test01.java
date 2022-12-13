@@ -42,6 +42,7 @@ public class Test01 {
         String time="2022-11-14";
         String time1="2022-11-15";
         System.out.println(time.compareTo(time1));
-
+        //0,5
+        System.out.println(true);
     }
 }
