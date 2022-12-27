@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardingValue;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -19,7 +18,7 @@ public class BaseComplexKeysShardingAlgorithm{
     public Collection<String> rangeOfTables(Collection<String> databaseNames,
                                             Range<String> dateRange,
                                             String ruleNo,
-                                            String suffix) throws ParseException {
+                                            String suffix) {
         String lower = dateRange.lowerEndpoint();
         String upper = dateRange.upperEndpoint();
         Date startDate = DateTimeUtil.parseDateFormat(lower, DateTimeUtil.DAY_FORMAT);
@@ -42,9 +41,9 @@ public class BaseComplexKeysShardingAlgorithm{
         Collection<Object> valueSet = new ArrayList<>();
         Map<String, Collection<String>> valueMap = shardingValues.getColumnNameAndShardingValuesMap();
         String[] keys = key.split("\\|");
-        for (int i = 0; i < keys.length; i++) {
-            if (valueMap.containsKey(keys[i])){
-                valueSet.addAll(valueMap.get(keys[i]));
+        for (String s : keys) {
+            if (valueMap.containsKey(s)) {
+                valueSet.addAll(valueMap.get(s));
             }
         }
         return valueSet;
@@ -63,7 +62,7 @@ public class BaseComplexKeysShardingAlgorithm{
     public Collection<String> rangeOfTablesByDays(Collection<String> databaseNames,
                                                   Range<String> dateRange,
                                                   String ruleNo,
-                                                  String suffix) throws ParseException {
+                                                  String suffix) {
         String lower = dateRange.lowerEndpoint();
         String upper = dateRange.upperEndpoint();
         Date startDate = DateTimeUtil.parseDateFormat(lower, DateTimeUtil.DAY_FORMAT);
