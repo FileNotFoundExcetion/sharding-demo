@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardingValue;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,12 +16,6 @@ import java.util.Map;
 @Slf4j
 @Component
 public class BaseComplexKeysShardingAlgorithm{
-    @Resource
-    public ShardingRuleNoConfig shardingRuleNoConfig;
-    public static final String KEY_AGENT_NO = "agent_no|agentNo";
-    public static final String KEY_AGENT_NO_TREE = "agent_no_tree|agentNoTree";
-    public static final String KEY_ORDER_DATE = "order_date";
-
     public Collection<String> rangeOfTables(Collection<String> databaseNames,
                                             Range<String> dateRange,
                                             String ruleNo,
