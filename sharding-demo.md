@@ -14,4 +14,12 @@ join on 的字段必须是分片键
 ><2个必须同时存在才能命中分片键，少一个则会多表扫描
 ```
 
-
+```editorconfig
+  5.2.1 
+  需要额外增加pom	
+  <dependency>
+  <groupId>org.yaml</groupId>
+  <artifactId>snakeyaml</artifactId>
+  <version>1.33</version>
+  </dependency>
+```
