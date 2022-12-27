@@ -1,6 +1,7 @@
 package com.sharding.controller;
 
 import com.sharding.ann.AccessLog;
+import com.sharding.mapper.ActivityInfoMapper;
 import com.sharding.mapper.OrderMapper;
 import com.sharding.request.TestRequest;
 import com.sharding.service.TestService;
@@ -20,9 +21,13 @@ public class TestController {
     @Resource
     private OrderMapper orderMapper;
 
+    @Resource
+    private ActivityInfoMapper activityInfoMapper;
+
     @AccessLog(value = "test")
     @PostMapping("test")
     public Object test(@RequestBody String json){
+        activityInfoMapper.selectActivity();
         System.out.println(json);
         return json;
     }

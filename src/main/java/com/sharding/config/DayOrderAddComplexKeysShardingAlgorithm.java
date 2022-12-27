@@ -4,10 +4,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardingAlgorithm;
 import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardingValue;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,8 +18,11 @@ import java.util.Properties;
 
 @Component
 @Slf4j(topic = "t_agent_order_add_value")
-public class DayOrderAddComplexKeysShardingAlgorithm extends BaseComplexKeysShardingAlgorithm{
-
+public class DayOrderAddComplexKeysShardingAlgorithm implements ComplexKeysShardingAlgorithm<String> {
+    @Resource
+    public ShardingRuleNoConfig shardingRuleNoConfig;
+    @Resource
+    private BaseComplexKeysShardingAlgorithm baseComplexKeysShardingAlgorithm;
     private static final String AGENT_ORDER_ATTACH_SUFFIX = "t_agent_order_add_value_%s_";
 
     @SneakyThrows
@@ -27,19 +32,19 @@ public class DayOrderAddComplexKeysShardingAlgorithm extends BaseComplexKeysShar
                 && complexKeysShardingValue.getColumnNameAndRangeValuesMap().isEmpty()) {
             throw new IllegalArgumentException("不支持的操作-分片键缺失");
         }
-        Collection<Object> agentNos = super.getShardingValue(complexKeysShardingValue, KEY_AGENT_NO);
+        Collection<Object> agentNos = baseComplexKeysShardingAlgorithm.getShardingValue(complexKeysShardingValue, ShardingColumn.KEY_AGENT_NO);
         if(CollectionUtils.isEmpty(agentNos)){
              log.info("agentNos is empty");
         }
         List<String> ruleNos = shardingRuleNoConfig.getRuleNo(CollectionUtils.isEmpty(agentNos) ? "" : String.valueOf(agentNos.stream().findFirst().get()));
-        Collection<Object> dates = super.getShardingValue(complexKeysShardingValue, KEY_ORDER_DATE);
+        Collection<Object> dates = baseComplexKeysShardingAlgorithm.getShardingValue(complexKeysShardingValue, ShardingColumn.KEY_ORDER_DATE);
         List<String> list = new ArrayList<>();
         if (CollectionUtils.isEmpty(dates)) {
             log.info("t_agent_order_add_value_ 按日期范围查询");
-            Range<String> dateRange = super.getRangeShardingValue(complexKeysShardingValue, KEY_ORDER_DATE);
+            Range<String> dateRange = baseComplexKeysShardingAlgorithm.getRangeShardingValue(complexKeysShardingValue, ShardingColumn.KEY_ORDER_DATE);
             Preconditions.checkArgument(!dateRange.isEmpty(),"根据分片键未找到对应的值或范围");
             for (String ruleNo : ruleNos) {
-                Collection<String> strings = super.rangeOfTablesByDays(databaseNames, dateRange, ruleNo, AGENT_ORDER_ATTACH_SUFFIX);
+                Collection<String> strings = baseComplexKeysShardingAlgorithm.rangeOfTablesByDays(databaseNames, dateRange, ruleNo, AGENT_ORDER_ATTACH_SUFFIX);
                 list.addAll(strings);
             }
             Preconditions.checkArgument(org.apache.commons.collections.CollectionUtils.isNotEmpty(list),"未找到相应的日表");

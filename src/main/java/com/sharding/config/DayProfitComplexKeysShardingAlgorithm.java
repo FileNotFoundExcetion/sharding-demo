@@ -1,10 +1,12 @@
 package com.sharding.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardingAlgorithm;
 import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardingValue;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,13 +20,16 @@ import java.util.Properties;
  */
 @Slf4j
 @Component
-public class DayProfitComplexKeysShardingAlgorithm extends BaseComplexKeysShardingAlgorithm {
-
+public class DayProfitComplexKeysShardingAlgorithm implements ComplexKeysShardingAlgorithm<String> {
+    @Resource
+    public ShardingRuleNoConfig shardingRuleNoConfig;
+    @Resource
+    private BaseComplexKeysShardingAlgorithm baseComplexKeysShardingAlgorithm;
     private static final String AGENT_PROFIT = "t_agent_profit_";
 
     @Override
     public Collection<String> doSharding(Collection<String> databaseNames, ComplexKeysShardingValue<String> complexKeysShardingValue) {
-        Collection<Object> orderDates = super.getShardingValue(complexKeysShardingValue, KEY_ORDER_DATE);
+        Collection<Object> orderDates = baseComplexKeysShardingAlgorithm.getShardingValue(complexKeysShardingValue, ShardingColumn.KEY_ORDER_DATE);
         if (CollectionUtils.isEmpty(orderDates)) {
             throw new IllegalArgumentException("未知的分片键");
         }

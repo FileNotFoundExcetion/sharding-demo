@@ -19,5 +19,8 @@ public class Singleton implements Serializable {
     public static void main(String[] args) {
         System.out.println(Singleton.getInstance());
         System.out.println(Singleton.getInstance());
+        String ss="1,3";
+        System.out.println(ss.split(",").length);
+
     }
 }
