@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sharding.mapper.OrderInfoMapper">
+
+    <select id="selectPosxOrderByHuBeiMap" resultType="com.sharding.entity.PosxOrderExtDO">
+        SELECT
+        o.agent_no_tree       as agentNoTree,
+        o.agent_no            as agentNo,
+        o.order_time          as orderTime,
+        o.pay_time            as payTime,
+        o.order_id            as orderId,
+        o.ori_order_id        as oriOrderId,
+        o.order_amount        as orderAmount,
+        o.order_rate          as orderRate,
+        o.order_fee           as orderFee,
+        o.order_status        as orderStatus,
+        o.device_no           as deviceNo,
+        o.device_name         as deviceName,
+        o.device_type         as deviceType,
+        o.activity_id         as activityId,
+        o.customer_id         as customerId,
+        o.annul_fee           as annulFee,
+        o.reply_code          as replyCode,
+        o.reply_msg           as replyMsg,
+        o.settle_type         as settleType,
+        o.payway_id           as paywayId,
+        o.merchant_id         as merchantId,
+        o.is_freeze           as isFreeze
+        FROM posx_order o
+        where
+        <trim prefixOverrides="and">
+            <include refid="whereSelectByHuBei"/>
+        </trim>
+        order by o.order_id desc
+        <if test="start != null and length != null">
+            LIMIT #{start},#{length}
+        </if>
+    </select>
+    <sql id="whereSelectByHuBei">
+        <if test="merchantName != null and merchantName != ''">
+            AND o.merchant_name = #{merchantName}
+        </if>
+        <if test="orderStatus != null and orderStatus != ''">
+            AND o.order_status = #{orderStatus}
+        </if>
+        <if test='beginTime != null and beginTime != ""'>
+            and o.order_date=#{beginTime}
+        </if>
+        <if test="orderId != null and orderId != ''">
+            AND o.order_id=#{orderId}
+        </if>
+        <if test="oriOrderId != null and oriOrderId != ''">
+            AND o.ori_order_id = #{oriOrderId}
+        </if>
+        <if test="refundId != null and refundId != ''">
+            AND p.refund_id = #{refundId}
+        </if>
+        <if test="merchantId != null and merchantId != ''">
+            and o.merchant_id=#{merchantId}
+        </if>
+        <if test="yinlianMerchantNo != null and yinlianMerchantNo != ''">
+            and o.merchant_no=#{yinlianMerchantNo}
+        </if>
+        <if test="paywayId > 0">
+            AND o.payway_id = #{paywayId}
+        </if>
+        <if test="deviceNo != null and deviceNo != ''">
+            AND o.device_no=#{deviceNo}
+        </if>
+        <if test="sn != null and sn != ''">
+            AND o.device_no=#{sn}
+        </if>
+        <if test="settleType != null and settleType != ''">
+            AND o.settle_type=#{settleType}
+        </if>
+        <if test="activityId != null">
+            AND o.activity_id=#{activityId}
+        </if>
+        <if test="isFreeze != null and isFreeze != ''">
+            AND o.is_freeze=#{isFreeze}
+        </if>
+        <if test="bmId != null">
+            AND o.bm_id=#{bmId}
+        </if>
+        <if test="deviceType != null and deviceType != ''">
+            AND o.device_type=#{deviceType}
+        </if>
+        <if test="paywayIds != null and paywayIds != ''">
+            AND o.payway_id IN
+            <foreach item="item" collection="paywayIds" index="index" open="(" separator="," close=")">
+                ${item}
+            </foreach>
+        </if>
+        <if test="agentNos != null">
+            and o.agent_no in
+            <foreach collection="agentNos" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+</mapper>
