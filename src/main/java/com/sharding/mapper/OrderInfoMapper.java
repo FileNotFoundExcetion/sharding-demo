@@ -9,4 +9,7 @@ import java.util.Map;
 @ShardingDS
 public interface OrderInfoMapper {
     List<PosxOrderExtDO> selectPosxOrderByHuBeiMap(Map<String, Object> param);
+
+    List<Integer> selectCountByHuBeiPosxOrder(Map<String, Object> param);
+
 }

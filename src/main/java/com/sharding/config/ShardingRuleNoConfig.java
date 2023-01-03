@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,8 @@ public class ShardingRuleNoConfig {
     public List<String> getRuleNo(String agentNo) {
         try {
             if (StringUtils.isEmpty(agentNo)) {
-                throw new IllegalArgumentException("分片键为空");
+                return Arrays.asList("0", "1");
+               // throw new IllegalArgumentException("分片键为空");
             }
             String firstAgentNo = getFirstAgentNoFromCache(agentNo);
             List<String> ruleNoList = getRuleNoFromCache(firstAgentNo);

@@ -42,8 +42,8 @@ public class DayOrderComplexKeysShardingAlgorithm extends BaseComplexKeysShardin
                 Collection<String> strings = super.rangeOfTablesByDays(databaseNames, dateRange, ruleNo, AGENT_ORDER_SUFFIX);
                 list.addAll(strings);
             }
-            log.info("t_agent_order 按日期范围查询:{}",list);
-            Preconditions.checkArgument(org.apache.commons.collections.CollectionUtils.isNotEmpty(list),"未找到相应的日表");
+            log.info("t_agent_order 按日期范围查询:{}", list);
+            Preconditions.checkArgument(org.apache.commons.collections.CollectionUtils.isNotEmpty(list), "未找到相应的日表");
             return list;
         } else {
             // 按日期精确查询 order_date = #{orderDate}

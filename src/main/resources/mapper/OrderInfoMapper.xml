@@ -3,6 +3,7 @@
 <mapper namespace="com.sharding.mapper.OrderInfoMapper">
 
     <select id="selectPosxOrderByHuBeiMap" resultType="com.sharding.entity.PosxOrderExtDO">
+        select  temp.* from (
         SELECT
         o.agent_no_tree       as agentNoTree,
         o.agent_no            as agentNo,
@@ -35,6 +36,7 @@
         <if test="start != null and length != null">
             LIMIT #{start},#{length}
         </if>
+        ) temp
     </select>
     <sql id="whereSelectByHuBei">
         <if test="merchantName != null and merchantName != ''">
@@ -99,4 +101,15 @@
             </foreach>
         </if>
     </sql>
+
+    <select id="selectCountByHuBeiPosxOrder" resultType="java.lang.Integer">
+        select temp.cnt from (
+        SELECT count(*) as cnt
+        FROM posx_order o
+        where
+        <trim prefixOverrides="and">
+            <include refid="whereSelectByHuBei"/>
+        </trim>
+        )temp
+    </select>
 </mapper>

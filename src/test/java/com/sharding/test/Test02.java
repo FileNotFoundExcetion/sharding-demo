@@ -4,9 +4,12 @@ import com.sharding.entity.ActivityInfo;
 import com.sharding.entity.IncomeCountExtDo;
 import com.sharding.entity.PosxDeviceDO;
 import com.sharding.entity.PosxDirectAgentMerStatistics;
+import com.sharding.entity.PosxOrderExtDO;
 import com.sharding.entity.TAgentShardingRuleConfigDO;
+import com.sharding.mapper.OrderInfoMapper;
 import com.sharding.mapper.OrderMapper;
 import com.sharding.mapper.TAgentShardingRuleConfigMapper;
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -91,5 +95,27 @@ public class Test02 {
     public void selectAllShardingRuleNos(){
         List<TAgentShardingRuleConfigDO> tAgentShardingRuleConfigDOS = tAgentShardingRuleConfigMapper.selectAllShardingRuleNos();
         System.out.println(tAgentShardingRuleConfigDOS);
+    }
+
+    @Resource
+    private OrderInfoMapper orderInfoMapper;
+
+    @Test
+    public void dd(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("beginTime","20221228");
+     //   map.put("orderId","202212281846041124346802");
+        map.put("yinlianMerchantNo","831521175120240");
+        List<PosxOrderExtDO> posxOrderExtDOS = orderInfoMapper.selectPosxOrderByHuBeiMap(map);
+        System.out.println(posxOrderExtDOS);
+
+        List<Integer> list = orderInfoMapper.selectCountByHuBeiPosxOrder(map);
+        System.out.println(list);
+        AtomicInteger totalSize = new AtomicInteger(0);
+        if (CollectionUtils.isNotEmpty(list)) {
+            list.stream().filter(Objects::nonNull)
+                    .reduce(Integer::sum).ifPresent(totalSize::set);
+        }
+        System.out.println(totalSize.get());
     }
 }
