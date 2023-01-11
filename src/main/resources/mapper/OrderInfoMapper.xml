@@ -112,4 +112,15 @@
         </trim>
         )temp
     </select>
+
+    <select id="selectOrderIdByMonth" resultType="com.sharding.entity.PosxOrder">
+        SELECT
+        *
+        FROM
+        posx_order
+        WHERE
+        order_id = #{orderId}
+        AND order_date = #{beginDate}
+        AND agent_no = #{agentNo}
+    </select>
 </mapper>

@@ -1,6 +1,8 @@
 package com.sharding.test;
 
 import com.sharding.entity.Order;
+import com.sharding.entity.PosxOrder;
+import com.sharding.mapper.OrderInfoMapper;
 import com.sharding.mapper.OrderMapper;
 import com.sharding.mapper.TestMapper;
 import com.sharding.service.OrderService;
@@ -25,7 +27,7 @@ class TestApplicationTests {
 	void selectOrderByOrderDate() {
 		//orderDate
 		Map<String,Object> params=new HashMap<>();
-		params.put("orderDate","20220930");
+		params.put("orderDate","20220929");
 		List<Order> orders = orderMapper.selectOrderByOrderDate(params);
 		System.out.println(orders);
 	}
@@ -77,5 +79,17 @@ class TestApplicationTests {
 		profitCountInfoDto.setPaywayIds(Arrays.asList("22000", "23000", "27000", "10004", "29000", "24000"));
 		profitCountInfoDto.setUnionpayOffers(0);
 		testMapper.queryAgentMercValueAnnulFeeInfoGroup(null,"D1", Collections.singletonList(105508),"20221202");
+	}
+
+	@Resource
+	private OrderInfoMapper posxOrderMapper;
+
+	@Test
+	public void ff(){
+		String orderId="202301091043208666700719";
+		Integer agentNo=105488;
+		PosxOrder orderEntity =posxOrderMapper .selectOrderIdByMonth(orderId, agentNo, orderId.substring(0, 8), orderId.substring(0, 8));
+		System.out.println(orderEntity.getAgentNoTree());
+
 	}
 }
